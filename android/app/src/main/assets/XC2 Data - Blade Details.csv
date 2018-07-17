@@ -1,0 +1,49 @@
+Name,Element,Weapon Type,DLC,NG+,Other Allowed Elements
+Adenine,Wind,Knuckle Claws,F,F,None
+Aegaeon,Water,Chroma Katana,F,F,None
+Agate,Earth,Greataxe,F,F,None
+Azami,Dark,Ether Cannon,F,F,None
+Boreas,Wind,Bitball,F,F,None
+Brighid,Fire,Whipswords,F,F,None
+Dagas,Fire,Greataxe,F,F,None
+Dahlia,Ice,Bitball,F,F,None
+Dromarch,Water,Twin Rings,F,F,None
+Electra,Electric,Shield Hammer,F,F,None
+Finch,Wind,Shield Hammer,F,F,None
+Floren,Earth,Bitball,F,F,None
+Godfrey,Ice,Shield Hammer,F,F,None
+Gorg,Water,Greataxe,F,F,None
+Herald,Electric,Ether Cannon,F,F,None
+Kasandra,Dark,Shield Hammer,F,F,None
+Kora,Electric,Knuckle Claws,F,F,None
+KOS-MOS,Light,Ether Cannon,F,F,None
+Mythra,Light,Aegis Sword,F,F,None
+Newt,Fire,Chroma Katana,F,F,None
+Nia,Water,Catalyst Scimitar,F,F,None
+Nim,Earth,Knuckle Claws,F,F,None
+Pandoria,Electric,Big Bang Edge,F,F,None
+Perceval,Dark,Chroma Katana,F,F,None
+Perun,Ice,Megalance,F,F,None
+Praxis,Water,Megalance,F,F,None
+Pyra,Fire,Aegis Sword,F,F,None
+Roc,Wind,Dual Scythes,F,F,None
+Sheba,Water,Ether Cannon,F,F,None
+Theory,Ice,Chroma Katana,F,F,None
+Ursula,Ice,Knuckle Claws,F,F,None
+Vale,Dark,Megalance,F,F,None
+Vess,Electric,Bitball,F,F,None
+Wulfric,Earth,Megalance,F,F,None
+Zenobia,Wind,Greataxe,F,F,None
+Poppibuster,Light,Shield Hammer,T,F,None
+Telos,Dark,Greataxe,T,F,None
+Fiora,Wind,Knives,T,F,None
+Shulk,Light,Monado,T,F,None
+Cressidus,Earth,Rockrending Gauntlets,F,T,None
+Mikhail,Dark,Infinity Fans,F,T,None
+Obrona,Electric,Brilliant Twinblades,F,T,None
+Patroka,Earth,Cobra Bardiche,F,T,None
+Perdido,Fire,Decimation Cannon,F,T,None
+Sever,Wind,Sword Tonfa,F,T,None
+Poppi Alpha,Earth,Drill Shield,F,F,Wind:Ice:Electric
+Poppi QT,Fire,Mech Arms,F,F,Water:Wind:Earth:Dark
+Poppi QTpi,Ice,Variable Saber,F,F,Fire:Water:Wind:Earth:Electric:Dark:Light
