@@ -27,42 +27,54 @@ class DriverDetails extends Component {
         })
 
         .catch((error) => {
-            alert("Failed to read file" + error);
+            alert("Failed to read file:\n" + error);
             this.setState({ isLoading: false });
         });
+    }
+
+    bladeSelected(driver, blade) {
+        alert("Driver: " + driver + "\nBlade Selected: " + blade);
     }
 
     getDriverDataSections = () => {
         let sections = [];
         this.state.drivers.forEach((driver) => {
-            sections.push({title: driver.name, data: driver.blades})
+            sections.push({key: driver.name, title: driver.name, data: driver.blades})
         });
         return sections;
+    };
+
+    renderSectionHeader(section) {
+        return (
+            <View style={styles.sectionHeader}>
+                <Text style={[styles.colTitle, {flex: 1}]}>{section.title}</Text>
+                <Text style={[styles.colTitle, {alignSelf: "flex-start", flex: 1}]}>Blades:</Text>
+            </View>
+        );
+    }
+
+    renderItem(item, section) {
+        return (
+            <Text
+                style={[styles.driverData, {flex: 1}]}
+                onPress={() => this.bladeSelected(section.title, item)}
+            >
+                {item}
+            </Text>
+        );
     }
 
     render() {
-        function headerCol(colText, flexSize = 1) {
-            return <Text style={[styles.colTitle, {flex: flexSize}]}>{colText}</Text>;
-        }
-
-        function driverCol(colText, flexSize = 1) {
-            return <Text style={[styles.driverData, {flex: flexSize}]}>{colText}</Text>;
-        }
-
         return (
             <View style={styles.main}>
                 {this.state.isLoading && <ActivityIndicator />}
                 {!this.state.isLoading && (
                     <View style={styles.container}>
                         <SectionList
-                            renderItem={({item, index, section}) => (
-                                <Text style={[styles.driverData, {flex: 1}]}>{item}</Text>
-                            )}
-                            renderSectionHeader={({section: {title}}) => (
-                                <Text style={styles.colTitle}>{title}</Text>
-                            )}
                             sections={this.getDriverDataSections()}
-                            keyExtractor={(item, index) => item.name}
+                            renderSectionHeader={({section}) => this.renderSectionHeader(section)}
+                            renderItem={({item, section}) => this.renderItem(item, section)}
+                            keyExtractor={(item) => item.name}
                         />
                     </View>
                 )}
@@ -82,23 +94,19 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     
-    filters: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        marginBottom: 10,
+    sectionHeader: {
+        flex: 1,
+        alignItems: "center",
     },
-    
-    row: {
-        flexDirection: "row",
-    },
-    
+
     colTitle: {
         fontSize: 18,
         fontWeight: "bold",
     },
     
     driverData: {
-        fontSize: 14,
+        fontSize: 16,
+        marginBottom: 10,
     }
 });
 

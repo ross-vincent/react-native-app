@@ -30,7 +30,7 @@ class BladeDetails extends Component {
         })
 
         .catch((error) => {
-            alert("Failed to read file" + error);
+            alert("Failed to read file:\n" + error);
             this.setState({ isLoading: false });
         });
     }
@@ -73,23 +73,35 @@ class BladeDetails extends Component {
         });
     }
 
+    headerCol(colText, flexSize = 1) {
+        return <Text style={[styles.colTitle, {flex: flexSize}]}>{colText}</Text>;
+    }
+
+    bladeCol(colText, dlc, ngPlus, flexSize = 1) {
+        let fontColour = "grey";
+        if (dlc) {
+            fontColour = "deepskyblue";
+        }
+        else if (ngPlus) {
+            fontColour = "cornflowerblue";
+        }
+
+        return (
+            <Text style={[styles.bladeData, {flex: flexSize, color: fontColour}]}>{colText.toString()}</Text>
+        );
+    }
+
+    renderItem(item) {
+        return (
+            <View style={styles.row}>
+                {this.bladeCol(item.name, item.dlc, item.ngPlus)}
+                {this.bladeCol(item.element, item.dlc, item.ngPlus)}
+                {this.bladeCol(item.weapon, item.dlc, item.ngPlus, 1.4)}
+            </View>
+        );
+    }
+
     render() {
-        function headerCol(colText, flexSize = 1) {
-            return <Text style={[styles.colTitle, {flex: flexSize}]}>{colText}</Text>;
-        }
-
-        function bladeCol(colText, dlc, ngPlus, flexSize = 1) {
-            let fontColour = "grey";
-            if (dlc) {
-                fontColour = "deepskyblue";
-            }
-            else if (ngPlus) {
-                fontColour = "cornflowerblue";
-            }
-
-            return <Text style={[styles.bladeData, {flex: flexSize, color: fontColour}]}>{colText.toString()}</Text>;
-        }
-
         return (
             <View style={styles.main}>
                 {this.state.isLoading && <ActivityIndicator />}
@@ -112,21 +124,14 @@ class BladeDetails extends Component {
                         </View>
                         
                         <View style={styles.row}>
-                            {headerCol("Name")}
-                            {headerCol("Element")}
-                            {headerCol("Weapon", 1.4)}
+                            {this.headerCol("Name")}
+                            {this.headerCol("Element")}
+                            {this.headerCol("Weapon", 1.4)}
                         </View>
-                        
                         <FlatList
                             data={this.state.currentBlades}
-                            renderItem={({item, index}) => (
-                                <View style={styles.row}>
-                                    {bladeCol(item.name, item.dlc, item.ngPlus)}
-                                    {bladeCol(item.element, item.dlc, item.ngPlus)}
-                                    {bladeCol(item.weapon, item.dlc, item.ngPlus, 1.4)}
-                                </View>
-                            )}
-                            keyExtractor={(item, index) => item.name}
+                            renderItem={({item}) => this.renderItem(item)}
+                            keyExtractor={(item) => item.name}
                         />
                     </View>
                 )}

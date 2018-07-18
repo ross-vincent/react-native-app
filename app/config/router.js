@@ -6,19 +6,25 @@ import DriverDetails from "../screens/DriverDetails"
 
 export const Tabs = createMaterialTopTabNavigator(
     {
-        BladeDetails1: {
+        BladeDetails: {
             screen: BladeDetails,
+            navigationOptions: {
+                tabBarLabel: "Blade Details",
+            },
         },
         DriverDetails: {
             screen: DriverDetails,
+            navigationOptions: {
+                tabBarLabel: "Driver Details",
+            },
         },
-        BladeDetails3: {
+        Screen3: {
             screen: BladeDetails,
         },
-        BladeDetails4: {
-            screen: BladeDetails,
+        Screen4: {
+            screen: DriverDetails,
         },
-        BladeDetails5: {
+        Screen5: {
             screen: BladeDetails,
         },
     },
@@ -27,6 +33,6 @@ export const Tabs = createMaterialTopTabNavigator(
     {
         tabBarOptions: {
             scrollEnabled: true,
-        }
+        },
     }
 );
