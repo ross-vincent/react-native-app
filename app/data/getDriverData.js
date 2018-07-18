@@ -21,7 +21,7 @@ function readCSV(filename) {
             let otherRexBlades = [];
             let allDriverBlades = [];
             let lines = data.split("\n");
-            
+
             lines.forEach(line => {
                 line = line.replace(/\r/g, "");
                 if (line.length > 0 && !line.startsWith("Driver") && !line.startsWith("Unused")) {

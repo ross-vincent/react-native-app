@@ -6,8 +6,8 @@ import {
     StyleSheet,
     ActivityIndicator,
     SectionList,
-    Button,
 } from "react-native"
+import Hr from "../components/Hr"
 import { getDriverData } from "../data/getDriverData"
 
 class DriverDetails extends Component {
@@ -23,17 +23,42 @@ class DriverDetails extends Component {
             this.setState({
                 isLoading: false,
                 drivers: driverData,
+                selectedDrivers: [],
+                selectedBlades: [],
             });
-        })
-
-        .catch((error) => {
-            alert("Failed to read file:\n" + error);
+        }, (error) => {
+            alert(`Failed to read file:\n${error}`);
             this.setState({ isLoading: false });
         });
     }
 
     bladeSelected(driver, blade) {
-        alert("Driver: " + driver + "\nBlade Selected: " + blade);
+        /*
+        let selectedDrivers = this.state.selectedDrivers;
+        if (selectedDrivers.length > 2 && !selectedDrivers.includes(driver)) {
+            alert(`All 3 drivers have been selected`);
+        }
+        else if (selectedDrivers.includes(driver)) {
+
+        }
+        else {
+            selectedDrivers.push(driver);
+        };
+        */
+        let selectedBlades = this.state.selectedBlades;
+        if (selectedBlades.includes(blade)) {
+            alert(`${blade} is already selected`);
+        }
+        else if (selectedBlades.length > 8) {
+            alert(`All 9 blades have been selected`);
+        }
+        else {
+            selectedBlades.push(blade);
+            this.setState({
+                selectedBlades: selectedBlades
+            })
+            alert(`Selected Blades: ${selectedBlades}`);
+        }
     }
 
     getDriverDataSections = () => {
@@ -47,8 +72,8 @@ class DriverDetails extends Component {
     renderSectionHeader(section) {
         return (
             <View style={styles.sectionHeader}>
-                <Text style={[styles.colTitle, {flex: 1}]}>{section.title}</Text>
-                <Text style={[styles.colTitle, {alignSelf: "flex-start", flex: 1}]}>Blades:</Text>
+                <Text style={[styles.headerText, {flex: 1}]}>{section.title}</Text>
+                <Text style={[styles.headerText, {alignSelf: "flex-start", flex: 1}]}>Blades:</Text>
             </View>
         );
     }
@@ -58,9 +83,7 @@ class DriverDetails extends Component {
             <Text
                 style={[styles.driverData, {flex: 1}]}
                 onPress={() => this.bladeSelected(section.title, item)}
-            >
-                {item}
-            </Text>
+            >{item}</Text>
         );
     }
 
@@ -74,6 +97,7 @@ class DriverDetails extends Component {
                             sections={this.getDriverDataSections()}
                             renderSectionHeader={({section}) => this.renderSectionHeader(section)}
                             renderItem={({item, section}) => this.renderItem(item, section)}
+                            ItemSeparatorComponent={() => {return <Hr />}}
                             keyExtractor={(item) => item.name}
                         />
                     </View>
@@ -99,14 +123,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
-    colTitle: {
+    headerText: {
         fontSize: 18,
         fontWeight: "bold",
+        color: "black",
     },
     
     driverData: {
         fontSize: 16,
-        marginBottom: 10,
     }
 });
 

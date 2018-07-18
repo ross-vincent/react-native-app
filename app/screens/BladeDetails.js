@@ -5,9 +5,10 @@ import {
     View,
     StyleSheet,
     ActivityIndicator,
-    FlatList,
+    SectionList,
     Button
 } from "react-native"
+import Hr from "../components/Hr"
 import { getBladeData } from "../data/getBladeData"
 
 class BladeDetails extends Component {
@@ -27,10 +28,8 @@ class BladeDetails extends Component {
                 filteredDLC: false,
                 filteredNGPlus: false
             });
-        })
-
-        .catch((error) => {
-            alert("Failed to read file:\n" + error);
+        }, (error) => {
+            alert(`Failed to read file:\n${error}`);
             this.setState({ isLoading: false });
         });
     }
@@ -73,30 +72,64 @@ class BladeDetails extends Component {
         });
     }
 
-    headerCol(colText, flexSize = 1) {
-        return <Text style={[styles.colTitle, {flex: flexSize}]}>{colText}</Text>;
+    displayArray(arrayText) {
+        let stringText = "";
+        arrayText.forEach((text) => {
+            stringText = stringText ? `${stringText}, ${text}` : text;
+        });
+
+        return stringText;
     }
 
-    bladeCol(colText, dlc, ngPlus, flexSize = 1) {
-        let fontColour = "grey";
+    displayBladeData(colText, baseStyle, dlc, ngPlus, flexSize = 1) {
+        let style = [baseStyle];
         if (dlc) {
-            fontColour = "deepskyblue";
+            style.push({color: "deepskyblue"});
         }
         else if (ngPlus) {
-            fontColour = "cornflowerblue";
+            style.push({color: "cornflowerblue"});
         }
-
+        style.push({flex: flexSize});
         return (
-            <Text style={[styles.bladeData, {flex: flexSize, color: fontColour}]}>{colText.toString()}</Text>
+            <Text style={style}>{colText.toString()}</Text>
+        );
+    }
+
+    getBladeDataSections = () => {
+        let sections = [];
+        this.state.currentBlades.forEach((blade) => {
+            sections.push({
+                key: blade.name,
+                title: blade.name,
+                data: [blade]
+            });
+        });
+        return sections;
+    };
+
+    renderSectionHeader(section) {
+        return (
+            this.displayBladeData(section.title, styles.headerText,
+                section.data[0].dlc, section.data[0].ngPlus)
         );
     }
 
     renderItem(item) {
-        return (
-            <View style={styles.row}>
-                {this.bladeCol(item.name, item.dlc, item.ngPlus)}
-                {this.bladeCol(item.element, item.dlc, item.ngPlus)}
-                {this.bladeCol(item.weapon, item.dlc, item.ngPlus, 1.4)}
+          return (
+            <View style={styles.container}>
+                <View style={styles.row}>
+                    {this.displayBladeData(`Element: ${item.element}`, styles.bladeData,
+                        item.dlc, item.ngPlus)}
+                    {this.displayBladeData(`Weapon: ${item.weapon}`, styles.bladeData,
+                        item.dlc, item.ngPlus, 1.4)}
+                </View>
+
+                {item.otherElements.length > 0 && (
+                    <View style={styles.container}>
+                        {this.displayBladeData(`Other Elements: ${this.displayArray(item.otherElements)}`,
+                            styles.bladeData, item.dlc, item.ngPlus)}
+                    </View>
+                )}
             </View>
         );
     }
@@ -110,11 +143,11 @@ class BladeDetails extends Component {
                         <View style={styles.filters}>
                             <Button
                                 onPress={() => this.filterDLC()}
-                                title={!this.state.filteredDLC? "Filter DLC blades" : "Unfilter DLC blades"}
+                                title={!this.state.filteredDLC ? "Filter DLC blades" : "Unfilter DLC blades"}
                             />
                             <Button
                                 onPress={() => this.filterNGPlus()}
-                                title={!this.state.filteredNGPlus? "Filter NG+ blades" : "Unfilter NG+ blades"}
+                                title={!this.state.filteredNGPlus ? "Filter NG+ blades" : "Unfilter NG+ blades"}
                             />
                         </View>
                         
@@ -122,15 +155,12 @@ class BladeDetails extends Component {
                             <Text style={{color: "deepskyblue"}}>DLC blades</Text>
                             <Text style={{color: "cornflowerblue"}}>NG+ blades</Text>
                         </View>
-                        
-                        <View style={styles.row}>
-                            {this.headerCol("Name")}
-                            {this.headerCol("Element")}
-                            {this.headerCol("Weapon", 1.4)}
-                        </View>
-                        <FlatList
-                            data={this.state.currentBlades}
+
+                        <SectionList
+                            sections={this.getBladeDataSections()}
+                            renderSectionHeader={({section}) => this.renderSectionHeader(section)}
                             renderItem={({item}) => this.renderItem(item)}
+                            renderSectionFooter={() => {return <Hr />}}
                             keyExtractor={(item) => item.name}
                         />
                     </View>
@@ -160,10 +190,11 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
     },
-    
-    colTitle: {
+
+    headerText: {
         fontSize: 18,
         fontWeight: "bold",
+        color: "black",
     },
     
     bladeData: {

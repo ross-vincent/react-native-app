@@ -20,7 +20,7 @@ function readCSV(filename) {
                         weapon: cols[2],
                         dlc: cols[3] !== "F",
                         ngPlus: cols[4] !== "F",
-                        otherElements: cols[5] !== "None"? cols[5].split(":") : [],
+                        otherElements: cols[5] !== "None" ? cols[5].split(":") : [],
                     };
                     blades.push(blade);
                 };
