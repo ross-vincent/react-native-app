@@ -11,6 +11,10 @@ import {
 import Hr from "../components/Hr"
 import { getBladeData } from "../data/getBladeData"
 
+/**
+ * Lists the details for blades from a csv and provides buttons to filter the
+ * blades that are dlc or ng+.
+ */
 class BladeDetails extends Component {
     constructor(props) {
         super(props);
@@ -18,8 +22,11 @@ class BladeDetails extends Component {
     }
 
     componentDidMount() {
+        // Gets data for the blades from a csv.
         getBladeData()
         .then((data) => {
+            // Data sorted alphabetically by name. The blade data is stored twice
+            // so one can filtered while still having access to all the data.
             let bladeData = data.sort(function(a, b){return a.name.localeCompare(b.name)})
             this.setState({
                 isLoading: false,
@@ -34,16 +41,19 @@ class BladeDetails extends Component {
         });
     }
 
+    /**
+     * Adds or removes the dlc blades from those displayed, based on whether they
+     * are currently filtered.
+     */
     filterDLC() {
         let newBlades = [];
-        let dlcBlades = [];
         
         if (!this.state.filteredDLC) {
             newBlades = this.state.currentBlades.filter(function(blade){return !blade.dlc});
         }
         else {
             newBlades = this.state.currentBlades;
-            dlcBlades = this.state.blades.filter(function(blade){return blade.dlc});
+            let dlcBlades = this.state.blades.filter(function(blade){return blade.dlc});
             newBlades = newBlades.concat(dlcBlades);
         };
 
@@ -53,16 +63,19 @@ class BladeDetails extends Component {
         });
     }
 
+    /**
+     * Adds or removes the ng+ blades from those displayed, based on whether
+     * they are currently filtered.
+     */
     filterNGPlus() {
         let newBlades = [];
-        let ngPlusBlades = [];
         
         if (!this.state.filteredNGPlus) {
             newBlades = this.state.currentBlades.filter(function(blade){return !blade.ngPlus});
         }
         else {
             newBlades = this.state.currentBlades;
-            ngPlusBlades = this.state.blades.filter(function(blade){return blade.ngPlus});
+            let ngPlusBlades = this.state.blades.filter(function(blade){return blade.ngPlus});
             newBlades = newBlades.concat(ngPlusBlades);
         };
 
@@ -72,6 +85,10 @@ class BladeDetails extends Component {
         });
     }
 
+    /**
+     * Returns an array as a string with comma space separated items.
+     * An empty array returns an empty string.
+     */
     displayArray(arrayText) {
         let stringText = "";
         arrayText.forEach((text) => {
@@ -81,6 +98,10 @@ class BladeDetails extends Component {
         return stringText;
     }
 
+    /**
+     * Adds to the style of the text to change font colour if it is a dlc or
+     * ng+ blade or add a custom flex size.
+     */
     displayBladeData(colText, baseStyle, dlc, ngPlus, flexSize = 1) {
         let style = [baseStyle];
         if (dlc) {
@@ -95,6 +116,9 @@ class BladeDetails extends Component {
         );
     }
 
+    /**
+     * Creates the array of section objects for the blade section list.
+     */
     getBladeDataSections = () => {
         let sections = [];
         this.state.currentBlades.forEach((blade) => {
@@ -107,6 +131,10 @@ class BladeDetails extends Component {
         return sections;
     };
 
+    /**
+     * Creates the section headers for the blade section list.
+     * Displays the blade's name.
+     */
     renderSectionHeader(section) {
         return (
             this.displayBladeData(section.title, styles.headerText,
@@ -114,6 +142,11 @@ class BladeDetails extends Component {
         );
     }
 
+    /**
+     * Sets the format for how to display the data for each blade in the blade
+     * section list. Displays the attributes of each blade other than their name.
+     * 'Other elements' are shown only if the blade has any.
+     */
     renderItem(item) {
           return (
             <View style={styles.container}>
@@ -134,6 +167,12 @@ class BladeDetails extends Component {
         );
     }
 
+    /**
+     * There are buttons to filter the data at the top of the page with a colour
+     * key below. The blade data is shown under this as a section list. Each
+     * section header is the name of the blade and their other details are shown
+     * within the section.
+     */
     render() {
         return (
             <View style={styles.main}>
@@ -201,5 +240,4 @@ const styles = StyleSheet.create({
         fontSize: 14,
     }
 });
-
 export default BladeDetails;

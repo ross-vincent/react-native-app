@@ -33,7 +33,7 @@ class DriverDetails extends Component {
     }
 
     bladeSelected(driver, blade) {
-        /*
+        /* arrayOfobjects.find()
         let selectedDrivers = this.state.selectedDrivers;
         if (selectedDrivers.length > 2 && !selectedDrivers.includes(driver)) {
             alert(`All 3 drivers have been selected`);

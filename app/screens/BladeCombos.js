@@ -8,7 +8,7 @@ import {
     SectionList,
 } from "react-native"
 import Hr from "../components/Hr"
-//import { getElementData } from "../data/getElementData"
+import { getElementData } from "../data/getElementData"
 
 class ElementDetails extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class ElementDetails extends Component {
     }
 
     componentDidMount() {
-        getBladeComboData()
+        getElementData()
         .then((data) => {
             let elementData = data;
             this.setState({

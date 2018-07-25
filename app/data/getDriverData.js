@@ -24,7 +24,8 @@ function readCSV(filename) {
 
             lines.forEach(line => {
                 line = line.replace(/\r/g, "");
-                if (line.length > 0 && !line.startsWith("Driver") && !line.startsWith("Unused")) {
+                if (line.length > 0 && line.charAt(0) !== "," &&
+                        !line.startsWith("Driver") && !line.startsWith("Unused")) {
                     let cols = line.split(",");
                     if (line.startsWith("Any")) {
                         allDriverBlades = readLine(cols);
@@ -53,9 +54,7 @@ function readCSV(filename) {
                 }
             });
             resolve(drivers);
-        })
-
-        .catch((error) => {
+        }, (error) => {
             reject(error);
         });
     });
